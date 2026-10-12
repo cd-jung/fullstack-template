@@ -19,3 +19,21 @@ def test_real_mode_without_workers_runtime_is_unavailable(settings):
 def test_error_codes_and_statuses():
     assert (llm.LLMUnavailableError.code, llm.LLMUnavailableError.status) == ("llm_unavailable", 503)
     assert (llm.LLMTimeoutError.code, llm.LLMTimeoutError.status) == ("llm_timeout", 504)
+
+
+@pytest.mark.parametrize(
+    "result, text",
+    [
+        ({"response": "plain"}, "plain"),
+        ({"response": {"field": "level"}}, '{"field": "level"}'),
+        ({"choices": [{"message": {"content": "openai shape"}}]}, "openai shape"),
+    ],
+)
+def test_text_of_accepts_workers_ai_shapes(result, text):
+    assert llm._text_of(result) == text
+
+
+@pytest.mark.parametrize("result", [{"response": ""}, {}, None])
+def test_text_of_rejects_empty_answers(result):
+    with pytest.raises(llm.LLMUnavailableError, match="empty answer"):
+        llm._text_of(result)

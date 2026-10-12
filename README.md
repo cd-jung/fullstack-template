@@ -173,3 +173,5 @@ from the catalogue examples and a keyword search over the User Guide.
 - CPU per request is above the free limit (see section 3).
 - E2E runs against the local stack, not against the deployed site; the deploy job runs a smoke test.
 - The Help assistant has no conversation memory on the server: each question is answered on its own.
+- On Workers the clock only advances during I/O (a Cloudflare security measure), so `duration_ms` in the
+  logs measures time spent waiting on D1 / AI calls; pure CPU work shows as 0 ms.

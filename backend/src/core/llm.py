@@ -8,6 +8,8 @@ CI and E2E runs can switch the implementation with settings.LLM_MODE:
 - "down": every call raises LLMUnavailableError (drives the failure-handling scenarios)
 """
 
+import json
+
 from django.conf import settings
 
 
@@ -66,9 +68,22 @@ def generate(prompt, *, system=None, max_tokens=600):
     ensure_available()
     messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
     result = _run_ai(settings.LLM_MODEL, {"messages": messages, "max_tokens": max_tokens, "temperature": 0})
-    text = result.get("response") if isinstance(result, dict) else None
+    return _text_of(result)
+
+
+def _text_of(result):
+    """Workers AI returns {"response": str}; JSON-looking output may arrive already parsed, and some
+    models use the OpenAI shape {"choices": [{"message": {"content": str}}]}."""
+    text = None
+    if isinstance(result, dict):
+        text = result.get("response")
+        if text is None and result.get("choices"):
+            text = (result["choices"][0].get("message") or {}).get("content")
+    if isinstance(text, dict | list):
+        text = json.dumps(text)
     if not isinstance(text, str) or not text.strip():
-        raise LLMUnavailableError("The AI service returned an empty answer.")
+        keys = sorted(result) if isinstance(result, dict) else type(result).__name__
+        raise LLMUnavailableError(f"The AI service returned an empty answer ({keys}).")
     return text
 
 
