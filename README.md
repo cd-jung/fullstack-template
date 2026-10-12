@@ -23,7 +23,7 @@ secret from the macOS Keychain, and pushes. The push runs CI/CD, which tests and
 |---|---|
 | App | `https://my-app.kookastudios.workers.dev` |
 | API | `https://my-app-api.kookastudios.workers.dev/api/health` |
-| Coverage | `https://my-app.kookastudios.workers.dev/coverage/` |
+| Coverage | `https://my-app.kookastudios.workers.dev/coverage` |
 | UX flows | `https://my-app.kookastudios.workers.dev/ux-flows/` |
 
 Then open the new folder in Claude Code and build features with `/feature <description>`.
@@ -36,7 +36,7 @@ Add `--public` to make the GitHub repo public.
 | 0-5 min | `new-project.sh`, open the folder in Claude Code, `gh run watch` the first deploy |
 | 5-10 min | Agree the feature list with the interviewer; first feature's UX flow + scenarios |
 | 10-50 min | One `/feature` per capability; `npm run verify` locally; push after each feature (CI deploys) |
-| 50-60 min | Show the live app, `/coverage/`, the Logs dashboard and the Help assistant; walk through AGENTS.md |
+| 50-60 min | Show the live app, `/coverage`, the Logs dashboard and the Help assistant; walk through AGENTS.md |
 
 ---
 

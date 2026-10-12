@@ -25,7 +25,7 @@ Vectorize 인덱스를 만들고, `project.config.json`을 채우고, macOS 키�
 |---|---|
 | 앱 | `https://my-app.kookastudios.workers.dev` |
 | API | `https://my-app-api.kookastudios.workers.dev/api/health` |
-| 커버리지 | `https://my-app.kookastudios.workers.dev/coverage/` |
+| 커버리지 | `https://my-app.kookastudios.workers.dev/coverage` |
 | UX flow | `https://my-app.kookastudios.workers.dev/ux-flows/` |
 
 그다음 새 폴더를 Claude Code로 열고 `/feature <설명>`으로 기능을 만듭니다.
@@ -38,7 +38,7 @@ GitHub 저장소를 public으로 만들려면 `--public`을 붙입니다.
 | 0-5분 | `new-project.sh` 실행, Claude Code로 폴더 열기, `gh run watch`로 첫 배포 확인 |
 | 5-10분 | 면접관과 기능 목록 합의, 첫 기능의 UX flow + 시나리오 |
 | 10-50분 | 기능마다 `/feature` 한 번, 로컬에서 `npm run verify`, 기능마다 push (CI가 배포) |
-| 50-60분 | 실제 앱, `/coverage/`, 로그 대시보드, Help 도우미 시연, AGENTS.md 설명 |
+| 50-60분 | 실제 앱, `/coverage`, 로그 대시보드, Help 도우미 시연, AGENTS.md 설명 |
 
 ---
 

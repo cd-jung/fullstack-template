@@ -170,7 +170,7 @@ Commit message: `feat(<feature>): ...`, `fix(<feature>): ...`, `refactor(<featur
 | `npm run test:e2e` | Playwright against the local stack |
 | `npm run check` | consistency check (add `-- --strict` to fail on uncovered core scenarios) |
 | `npm run coverage` | E2E scenario coverage in the terminal |
-| `npm run build:site` | app + `/coverage/` report + `/ux-flows/` viewer into `frontend/dist` |
+| `npm run build:site` | app + coverage report (shown at `/coverage`) + `/ux-flows/` viewer into `frontend/dist` |
 | `npm run migrations` | Django migrations + D1 SQL export |
 | `npm run verify` | everything CI runs before deploy |
 

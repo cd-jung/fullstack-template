@@ -17,11 +17,11 @@ describe('AppLayout', () => {
     NAV_ITEMS.forEach((item) => expect(menu).toHaveTextContent(item.label));
   });
 
-  it('marks the current page and links Coverage to the static report', async () => {
+  it('marks the current page and links Coverage to its page', async () => {
     renderAt(<App />, '/guide');
     await userEvent.click(screen.getByRole('button', { name: 'Open menu' }));
     expect(screen.getByRole('link', { name: 'User Guide' })).toHaveAttribute('aria-current', 'page');
-    expect(screen.getByRole('link', { name: 'Coverage' })).toHaveAttribute('href', '/coverage/');
+    expect(screen.getByRole('link', { name: 'Coverage' })).toHaveAttribute('href', '/coverage');
   });
 
   it('shows the not found page for unknown routes', () => {

@@ -9,7 +9,7 @@ The left menu has four sections:
 - **Home**: the main feature of the app.
 - **User Guide**: these pages.
 - **Logs & Monitoring**: request logs and service health.
-- **Coverage**: how much of the app is covered by automated tests.
+- **Coverage**: how much of the app is covered by automated tests, shown inside the app.
 
 On a small screen, open the menu with the menu button in the top-left corner.
 

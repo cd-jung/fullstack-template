@@ -171,7 +171,7 @@ scripts/                     check-consistency, new-project, build-site, dev, un
 | `npm run test:e2e` | 로컬 스택에 Playwright 실행 |
 | `npm run check` | 정합성 검사 (`-- --strict`를 붙이면 core 시나리오 누락 시 실패) |
 | `npm run coverage` | 터미널에 E2E 시나리오 커버리지 출력 |
-| `npm run build:site` | 앱 + `/coverage/` 리포트 + `/ux-flows/` 뷰어를 `frontend/dist`에 빌드 |
+| `npm run build:site` | 앱 + 커버리지 리포트(`/coverage`에 표시) + `/ux-flows/` 뷰어를 `frontend/dist`에 빌드 |
 | `npm run migrations` | Django 마이그레이션 + D1 SQL 내보내기 |
 | `npm run verify` | 배포 전에 CI가 돌리는 전부 |
 

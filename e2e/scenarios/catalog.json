@@ -31,7 +31,7 @@
       "flow": "01-app-shell.md",
       "scenarios": [
         { "id": "SHELL-001", "priority": "core", "rule": "C1", "account": "anonymous", "group": "Layout", "title": "Opening / shows the header, the left menu with every entry and the Help button", "nodes": ["01:shell", "01:menu", "01:permanent"] },
-        { "id": "SHELL-002", "priority": "secondary", "rule": "S1", "account": "anonymous", "group": "Layout", "title": "Menu entries open Home, User Guide and Logs & Monitoring; Coverage links to /coverage/", "nodes": ["01:home", "01:guide", "01:logs", "01:coverage"] },
+        { "id": "SHELL-002", "priority": "secondary", "rule": "S1", "account": "anonymous", "group": "Layout", "title": "Menu entries open Home, User Guide and Logs & Monitoring; Coverage shows the report inside the layout", "nodes": ["01:home", "01:guide", "01:logs", "01:coverage"] },
         { "id": "SHELL-003", "priority": "secondary", "rule": "S3", "account": "anonymous_mobile", "group": "Layout", "title": "Mobile: the menu button opens the drawer", "nodes": ["01:drawer"] },
         { "id": "SHELL-004", "priority": "secondary", "rule": "S5", "account": "anonymous", "group": "URL state", "title": "Unknown path shows 'Page not found' with Go to Home", "nodes": ["01:notFound"] }
       ]

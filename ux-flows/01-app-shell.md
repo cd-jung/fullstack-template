@@ -12,7 +12,7 @@ flowchart TD
   menu -->|"Home"| home["Main feature page"]
   menu -->|"User Guide"| guide[["User Guide<br/>(scenario 2)"]]
   menu -->|"Logs & Monitoring"| logs[["Logs & Monitoring<br/>(scenario 4)"]]
-  menu -->|"Coverage"| coverage["Static coverage report /coverage/"]
+  menu -->|"Coverage"| coverage["Coverage report inside the layout<br/>(build hint when not built yet)"]
   shell -->|"Help"| help[["Help assistant<br/>(scenario 3)"]]
   open -->|"unknown path"| notFound["'Page not found' + Go to Home"]
 
