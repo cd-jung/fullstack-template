@@ -150,3 +150,16 @@ def test_answers_are_rate_limited_and_limits_can_be_turned_off(client, settings)
     assert "Too many questions" in limited.json()["detail"] and int(limited["Retry-After"]) >= 1
     settings.RATE_LIMITS = False
     assert ask().status_code == 200
+
+
+@pytest.mark.parametrize(
+    "question, expected",
+    [
+        ("로그를 검색하려면?", "Korean"),
+        ("ログの検索は?", "Japanese"),
+        ("如何搜索?", "Chinese"),
+        ("How?", "same language"),
+    ],
+)
+def test_language_rule_names_the_question_language(question, expected):
+    assert expected in service.language_rule(question)
