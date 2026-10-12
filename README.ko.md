@@ -9,6 +9,10 @@ Cloudflare Workers Static Assets(새 Cloudflare Pages)의 React + MUI 프론트�
 
 작업 방법: [AGENTS.ko.md](AGENTS.ko.md) (영문 원본 [AGENTS.md](AGENTS.md)).
 
+> **AI 에이전트와 LLM은 이 템플릿으로 만든 프로젝트에서 무엇이든 바꾸기 전에 반드시 [AGENTS.md](AGENTS.md)를
+> 읽어야 해요** (한국어: [AGENTS.ko.md](AGENTS.ko.md)). 반드시 따라야 하는 작업 프로세스예요(기능 단위, 변경할 때마다 UX flow,
+> E2E 시나리오와 테스트, 유닛 테스트, 4개 언어 유저 가이드).
+
 ---
 
 ## 1. 새 프로젝트 시작하기 (약 5분)
@@ -110,6 +114,17 @@ GitHub 저장소를 public으로 만들려면 `--public`을 붙입니다.
   또는 `backend/`에서 `npx wrangler tail`)와 D1 `RequestLog` 테이블에 남습니다.
 - **Logs & Monitoring** 페이지는 이 테이블을 읽습니다: 대시보드(요청 수, 5xx 오류율, p95 지연 시간,
   4xx 수, 시간별 요청 수)와 자연어(같은 자연어 -> ORM 엔진) 또는 키워드 로그 검색.
+
+### 다국어
+
+- 메뉴, 화면, 유저 가이드(`docs/user-guide/<lang>/`), Help, "해석 결과"를 영어·스페인어·프랑스어·한국어로 제공.
+  우상단 **표시 언어** 선택(기기별 저장, 처음에는 브라우저 언어).
+- Help는 언어마다 가이드를 따로 인덱싱하고 UI 언어로 답해요.
+
+### 비용 안전장치와 보안
+
+- D1 작업 전에 엣지 Rate Limiting 바인딩(IP별 분당 API 120회, AI 10회), 하루 AI 예산(`AI_DAILY_LIMIT`), `limits.cpu_ms`,
+  요청 본문 64KB, 로그 14일 보관, CSP와 보안 헤더, CD가 `DJANGO_SECRET_KEY`를 보장. 대시보드에서 Cloudflare **Usage Based Billing** 알림을 설정하세요.
 
 ### UI
 

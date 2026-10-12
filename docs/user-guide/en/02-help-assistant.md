@@ -5,10 +5,11 @@ The Help assistant answers questions about how to use the app, using only this U
 ## Asking a question
 
 1. Click **Help** in the bottom-right corner.
-2. Type your question and press **Enter**. Press **Shift+Enter** for a new line.
+2. Type your question and press **Enter**, or click a suggested question. Press **Shift+Enter** for a new line.
 3. Read the short answer, then click a source link to open the full guide section.
 
-Questions can be up to 1000 characters long.
+Questions can be up to 1000 characters long. A follow-up question takes your previous question into account,
+and the assistant answers in your display language. Click **Stop generating** to cancel a question.
 
 ## When the assistant cannot answer
 

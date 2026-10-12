@@ -3,12 +3,6 @@ import type { Source } from './useChatStore';
 
 export const MAX_QUESTION = 1000;
 export const TIMEOUT_MS = 30_000;
-/** Shown before the first question. Replace with the project's most common usage questions. */
-export const SUGGESTED_QUESTIONS = [
-  'How do I search logs in plain language?',
-  'What does the Coverage page show?',
-  'How do I ask the Help assistant a question?',
-];
 
 export interface AnswerResponse {
   answer: string;

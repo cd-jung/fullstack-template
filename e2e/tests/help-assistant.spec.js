@@ -43,7 +43,7 @@ test.describe('Help assistant (LLM stub)', () => {
     await page.goto('/');
     const chat = await openHelp(page);
     await ask(chat, 'How do I ask a question?');
-    await expect(chat.getByTestId('chat-error')).toContainText('The AI service is unavailable.');
+    await expect(chat.getByTestId('chat-error')).toContainText('The assistant is unavailable. Please try again later.');
     await page.unrouteAll({ behavior: 'ignoreErrors' });
     await chat.getByRole('button', { name: 'Retry' }).click();
     await expect(chat.getByTestId('chat-answer').last()).toBeVisible();

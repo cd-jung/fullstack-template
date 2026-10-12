@@ -7,6 +7,10 @@ unit + E2E tests driven by UX flows, a coverage page, and CI/CD that deploys eve
 
 Korean version: [README.ko.md](README.ko.md). Working method for agents and developers: [AGENTS.md](AGENTS.md).
 
+> **For AI agents and LLMs: before changing anything in a project made from this template, you must read
+> [AGENTS.md](AGENTS.md)** (Korean: [AGENTS.ko.md](AGENTS.ko.md)): the mandatory work process (feature units;
+> UX flow, E2E scenarios and tests, unit tests and the User Guide in all four languages with every change).
+
 ---
 
 ## 1. Start a new project (about 5 minutes)
@@ -109,6 +113,18 @@ error 1102, so this template now assumes **Workers Paid**. To run on Free, move 
   Observability, or `npx wrangler tail` in `backend/`) and to the D1 `RequestLog` table.
 - The **Logs & Monitoring** page reads the table: dashboard (requests, 5xx error rate, p95 latency,
   4xx count, requests per hour) and log search in plain language (same NL -> ORM engine) or by keyword.
+
+### Languages
+
+- English, Spanish, French and Korean for menus, pages, User Guide (`docs/user-guide/<lang>/`), Help and
+  "Interpreted as"; **Display language** select top right (saved per device, browser language first).
+- Help indexes each language's guide separately and answers in the UI language.
+
+### Cost safeguards and security
+
+- Edge Rate Limiting bindings (120 API / 10 AI requests per minute per IP) before any D1 work, daily AI budget
+  (`AI_DAILY_LIMIT`), `limits.cpu_ms`, 64 KB bodies, 14-day log retention, CSP and security headers,
+  `DJANGO_SECRET_KEY` ensured by CD. Set a Cloudflare **Usage Based Billing** alert in the dashboard.
 
 ### UI
 

@@ -55,7 +55,23 @@ def _py(value):
     return json.loads(JSON.stringify(value))
 
 
+def _spend_budget():
+    """Count one real AI call against today's AI_DAILY_LIMIT; refuse once the budget is used up."""
+    from datetime import UTC, datetime
+
+    from django.db.models import F
+
+    from core.models import AiUsage
+
+    day = datetime.now(UTC).date()
+    if not AiUsage.objects.filter(day=day).update(calls=F("calls") + 1):
+        AiUsage.objects.get_or_create(day=day, defaults={"calls": 1})
+    if AiUsage.objects.get(day=day).calls > settings.AI_DAILY_LIMIT:
+        raise LLMUnavailableError("The daily AI budget is used up. Please try again tomorrow.")
+
+
 def _run_ai(model, payload):
+    _spend_budget()
     from pyodide.ffi import run_sync
 
     from core.runtime import workers_env
@@ -117,7 +133,7 @@ def vector_query(vector, top_k):
     env = workers_env()
     if env is None or not hasattr(env, "VECTORIZE"):
         raise LLMUnavailableError("Vectorize binding is not configured.")
-    result = _py(run_sync(env.VECTORIZE.query(_js(vector), _js({"topK": top_k, "returnMetadata": "all"}))))
+    result = _py(run_sync(env.VECTORIZE.query(_js(vector), _js({"topK": top_k, "returnMetadata": "none"}))))
     return [
         {"id": m.get("id"), "score": float(m.get("score", 0)), "metadata": m.get("metadata") or {}}
         for m in result.get("matches", [])

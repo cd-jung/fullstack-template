@@ -131,6 +131,6 @@ def test_custom_describe():
         name="t",
         subject="t",
         model=RequestLog,
-        fields={"n": Field("number", "status_code", "n", describe=lambda op, v: f"custom {op} {v}")},
+        fields={"n": Field("number", "status_code", "n", describe=lambda op, v, lang: f"custom {op} {v} {lang}")},
     )
-    assert describe_filter(catalog, {"field": "n", "op": "gt", "value": 1}) == "custom gt 1"
+    assert describe_filter(catalog, {"field": "n", "op": "gt", "value": 1}) == "custom gt 1 en"

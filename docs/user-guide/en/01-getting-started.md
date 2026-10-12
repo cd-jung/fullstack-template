@@ -13,6 +13,12 @@ The left menu has four sections:
 
 On a small screen, open the menu with the menu button in the top-left corner.
 
+## Choosing your language
+
+The app is available in English, Spanish (Español), French (Français) and Korean (한국어). Choose a language
+from **Display language** in the top-right corner. Menus, pages, this User Guide and the Help assistant
+switch to that language, and the app remembers your choice on this device.
+
 ## Getting help
 
 Click the **Help** button in the bottom-right corner to ask a question about using the app.
