@@ -75,12 +75,11 @@ GitHub 저장소를 public으로 만들려면 `--public`을 붙입니다.
 | 프론트엔드 호스팅 | **Workers Static Assets** (별도 Worker, `frontend/wrangler.jsonc`) | R2 버킷 + 도메인, 구버전 Pages | 원래 Pages로 계획. 2026-10-12에 wrangler 4.149가 Pages를 "Workers에 통합된 최신 Cloudflare Pages"로 넘겨서 사용자가 Static Assets를 선택. SPA fallback, CDN, 정적 요청 무료·무제한. R2만 쓰면 규칙을 직접 만들어야 함. R2는 사용자 파일용 |
 | 백엔드 | **Python Workers 위의 Django** (`django-cf`로 WSGI) | Python Workers 위의 FastAPI, Hono + Drizzle (TypeScript), **Cloudflare Containers**의 Django | Django를 의도적으로 유지. Containers는 Workers Paid(월 $5)와 Docker 필요. FastAPI는 D1 ORM이 없음. CPU 한도가 문제되면 Hono + Drizzle로 전환 |
 | 컨테이너 | **사용 안 함** | Cloudflare Containers | Workers는 컨테이너가 아니라 V8 isolate에서 실행(Python은 Pyodide) |
-| 요금제 | **Workers Free** | Workers Paid 월 $5 | 사용자 결정: 무료 유지. 아래 CPU 참고 |
+| 요금제 | **Workers Paid** (월 $5) | Workers Free | 처음엔 Free(사용자 결정). 2026-10-12에 일반 사용 중 Cloudflare error 1102(CPU 한도)가 나서 사용자가 업그레이드. Paid는 요청당 CPU 30초(최대 5분), 월 3,000만 CPU ms 포함 |
 
-**CPU 참고 (2026-10-12 측정):** Django + D1(1만 행) 스파이크는 무료 플랜에서 동작했습니다
-(요청당 약 0.2-0.3초, 콜드 스타트 약 2초). 하지만 요청당 CPU가 **50-64ms**로 무료 한도 10ms를 넘었습니다.
-트래픽이 적을 때는 Cloudflare가 허용했습니다. "exceeded CPU"로 요청이 실패하기 시작하면 Workers Paid로
-올리거나 API를 Hono + Drizzle로 옮기세요.
+**CPU 참고 (2026-10-12 측정):** Python Workers 위의 Django는 **요청당 CPU 50-64ms**를 씁니다(콜드 스타트 약 2초).
+무료 플랜 한도는 10ms라서, 처음엔 동작했지만 Cloudflare가 error 1102로 요청을 거부하기 시작했습니다.
+그래서 이 템플릿은 이제 **Workers Paid**를 전제로 합니다. 무료로 쓰려면 API를 Hono + Drizzle로 옮기세요.
 
 ### 데이터
 
@@ -143,17 +142,17 @@ Cloudflare Git 연동 대신 Actions에서 배포합니다. 그래서 모든 검
 
 ---
 
-## 4. 비용 (Workers Free)
+## 4. 비용 (Workers Paid, 월 $5)
 
 | 서비스 | 무료 한도 | 템플릿 사용량 |
 |---|---|---|
-| Workers | 하루 요청 10만 번, 요청당 CPU 10ms | CPU 참고 |
+| Workers | Paid: 월 요청 1,000만 번, CPU 3,000만 ms 포함, 요청당 CPU 30초 | Django 요청당 CPU 약 60ms: 월 약 50만 요청 |
 | D1 | 하루 읽기 500만 행, 쓰기 10만 행, 5GB | 요청당 로그 1행 |
 | Vectorize | 월 조회 3,000만 차원, 저장 500만 차원 | 가이드 섹션당 약 1,024차원 |
 | Workers AI | 하루 10,000 Neurons | bge-m3 100만 토큰당 약 1,075 Neurons, Llama 70B 하루 출력 약 4.8만 토큰 |
 | Static Assets | 정적 요청 무료·무제한 | - |
 
-유료 플랜이 필요하면: 월 $5 (요청 1,000만 번, CPU 3,000만 ms, D1 읽기 250억 행, Vectorize 조회 5,000만 차원 포함).
+표의 다른 행은 무료 한도입니다. Paid에서는 D1 월 읽기 250억 행·쓰기 5,000만 행, Vectorize 조회 5,000만·저장 1,000만 차원으로 늘어납니다.
 
 ---
 

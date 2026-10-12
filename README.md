@@ -74,12 +74,11 @@ tells agents to ask before changing any of these.
 | Frontend hosting | **Workers Static Assets** (own Worker, `frontend/wrangler.jsonc`) | R2 bucket + domain; legacy Pages | Planned as Pages; on 2026-10-12 wrangler 4.149 redirected Pages to "the latest version of Cloudflare Pages, now part of Cloudflare Workers", so the user chose Static Assets. SPA fallback, CDN, free unlimited static requests; R2 alone needs manual rules. R2 is for user files |
 | Backend | **Django on Python Workers** (WSGI via `django-cf`) | FastAPI on Python Workers; Hono + Drizzle (TypeScript); Django in **Cloudflare Containers** | Django kept on purpose. Containers need Workers Paid ($5/month) and Docker. FastAPI has no D1 ORM. Hono + Drizzle is the fallback if CPU limits bite |
 | Containers | **Not used** | Cloudflare Containers | Workers run in V8 isolates (Pyodide for Python), not containers |
-| Plan | **Workers Free** | Workers Paid $5/month | User decision: stay free. See the CPU note below |
+| Plan | **Workers Paid** ($5/month) | Workers Free | Started on Free (user decision); on 2026-10-12 the API hit Cloudflare error 1102 (CPU limit) under normal use, so the user upgraded. Paid allows 30 s CPU per request (up to 5 min) and includes 30M CPU ms/month |
 
-**CPU note (measured 2026-10-12):** a Django + D1 spike with 10,000 rows ran on the free plan
-(~0.2-0.3 s per request, ~2 s cold start) but used **50-64 ms CPU per request**, above the free
-plan's 10 ms limit. Cloudflare tolerated it at low traffic. If requests start failing with
-"exceeded CPU", either upgrade to Workers Paid or move the API to Hono + Drizzle.
+**CPU note (measured 2026-10-12):** Django on Python Workers uses **50-64 ms CPU per request** (~2 s cold
+start). The free plan allows 10 ms: it worked at first, then Cloudflare started rejecting requests with
+error 1102, so this template now assumes **Workers Paid**. To run on Free, move the API to Hono + Drizzle.
 
 ### Data
 
@@ -142,17 +141,17 @@ unless every check passed. The coverage page is rebuilt on every deploy.
 
 ---
 
-## 4. Cost (Workers Free)
+## 4. Cost (Workers Paid, $5/month)
 
 | Service | Free allowance | Template usage |
 |---|---|---|
-| Workers | 100,000 requests/day, 10 ms CPU/request | see CPU note |
+| Workers | Paid: 10M requests and 30M CPU ms/month included, 30 s CPU/request | ~60 ms CPU per Django request: about 500k requests/month |
 | D1 | 5M rows read/day, 100k rows written/day, 5 GB | one log row per request |
 | Vectorize | 30M queried dims/month, 5M stored dims | ~1,024 dims per guide section |
 | Workers AI | 10,000 Neurons/day | bge-m3 ~1,075 Neurons per 1M tokens; Llama 70B ~48k output tokens/day |
 | Static Assets | static requests free and unlimited | - |
 
-Paid plan, if ever needed: $5/month (includes 10M requests, 30M CPU ms, 25B D1 reads, 50M Vectorize queried dims).
+The table's other rows show the free allowances; on Paid they rise to 25B D1 rows read and 50M written per month, 50M Vectorize queried and 10M stored dimensions.
 
 ---
 

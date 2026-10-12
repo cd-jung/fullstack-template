@@ -18,7 +18,7 @@
 | 로그 | 모든 API 요청 -> Workers Logs(stdout)와 `RequestLog` 테이블 |
 | 테스트 | pytest + pytest-django, Vitest + Testing Library, Playwright(UX flow 시나리오) |
 | CI/CD | GitHub Actions: 모든 push / PR에서 검증, `main`이면 배포 |
-| 요금제 | Cloudflare **Workers Free**. 요청당 CPU를 낮게 유지(Django 앱 수 최소화, 무거운 import 금지) |
+| 요금제 | Cloudflare **Workers Paid**(월 $5): Django는 요청당 CPU 약 60ms로 무료 한도 10ms를 넘음. 그래도 낮게 유지(앱 수 최소화, 무거운 import 금지) |
 
 ## 2. 저장소 구조
 
