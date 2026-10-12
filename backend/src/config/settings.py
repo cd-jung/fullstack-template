@@ -50,4 +50,6 @@ LLM_MODEL = setting("LLM_MODEL", "@cf/meta/llama-3.3-70b-instruct-fp8-fast")
 EMBEDDING_MODEL = setting("EMBEDDING_MODEL", "@cf/baai/bge-m3")
 RAG_TOP_K = int(setting("RAG_TOP_K", "5"))
 RAG_MINIMUM_SIMILARITY = float(setting("RAG_MINIMUM_SIMILARITY", "0.5"))
+# Per-client limits on AI endpoints (core.ratelimit); E2E turns them off because every test shares one IP.
+RATE_LIMITS = setting("RATE_LIMITS", "1") != "0"
 USER_GUIDE_DIR = Path(setting("USER_GUIDE_DIR", str(REPO_ROOT / "docs" / "user-guide")))

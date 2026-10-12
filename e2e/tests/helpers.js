@@ -6,13 +6,13 @@ async function llmDown(page) {
   await page.route('**/api/rag/answers', (route) =>
     route.fulfill({ status: 503, json: { code: 'llm_unavailable', detail: 'The AI service is unavailable.' } })
   );
-  await page.route('**/api/**/nl-search/translate', (route) =>
+  await page.route('**/nl-search/translate', (route) =>
     route.fulfill({ status: 502, json: { code: 'llm_unavailable', detail: 'The AI service is unavailable.' } })
   );
 }
 
 async function openHelp(page) {
-  await page.getByRole('button', { name: 'Help' }).click();
+  await page.getByRole('button', { name: 'Help', exact: true }).click();
   return page.getByRole('complementary', { name: 'Help chat' });
 }
 

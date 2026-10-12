@@ -109,3 +109,28 @@ def test_describe_filter_lists_and_isnull():
         == "method is one of GET, POST"
     )
     assert describe_filter(LOG_CATALOG, {"field": "message", "op": "isnull", "value": False}) == "message is not empty"
+
+
+def test_token_fields_match_whole_values():
+    from nlsearch.catalog import Catalog, Field
+
+    catalog = Catalog(
+        name="t", subject="t", model=RequestLog, fields={"tag": Field("string", "message", "tags", tokens=True)}
+    )
+    a = _log(message="|red|blue|")
+    _log(message="|reddish|")
+    assert list(apply_filter(catalog, RequestLog.objects.all(), {"field": "tag", "op": "eq", "value": "red"})) == [a]
+    either = {"field": "tag", "op": "in", "value": ["blue", "reddish"]}
+    assert apply_filter(catalog, RequestLog.objects.all(), either).count() == 2
+
+
+def test_custom_describe():
+    from nlsearch.catalog import Catalog, Field
+
+    catalog = Catalog(
+        name="t",
+        subject="t",
+        model=RequestLog,
+        fields={"n": Field("number", "status_code", "n", describe=lambda op, v: f"custom {op} {v}")},
+    )
+    assert describe_filter(catalog, {"field": "n", "op": "gt", "value": 1}) == "custom gt 1"

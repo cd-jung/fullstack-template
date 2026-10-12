@@ -131,7 +131,7 @@ plan's 10 ms limit. Cloudflare tolerated it at low traffic. If requests start fa
 | Stage | Runs |
 |---|---|
 | verify (every push and PR) | lint -> unit tests with coverage -> consistency check `--strict` -> E2E (Playwright, LLM stub) -> build site |
-| deploy (`main` only, after verify) | D1 migrations -> Worker deploy (`pywrangler deploy`) -> User Guide re-index (changed sections only) -> frontend deploy (`wrangler deploy --config frontend/wrangler.jsonc`) -> smoke test |
+| deploy (`main` only, after verify) | D1 migrations -> seed once if empty -> Worker deploy (`pywrangler deploy`) -> User Guide re-index (changed sections only) -> frontend deploy (`wrangler deploy --config frontend/wrangler.jsonc`) -> smoke test -> `@real` E2E on the live site |
 
 Everything deploys from Actions instead of the Cloudflare Git integration, so nothing deploys
 unless every check passed. The coverage page is rebuilt on every deploy.

@@ -113,3 +113,40 @@ def test_api_contract(client, settings):
     settings.LLM_MODE = "down"
     down = client.post("/api/rag/answers", {"question": "help"}, content_type="application/json")
     assert down.status_code == 503 and down.json()["code"] == "llm_unavailable"
+
+
+def test_follow_up_question_uses_the_previous_question():
+    _index()
+    alone = service.answer("What about mobile?")
+    follow_up = service.answer("What about mobile?", history=["How do I search logs in plain language?"])
+    assert alone["has_sufficient_context"] is False
+    assert follow_up["sources"][0]["url"].startswith("/guide/03-logs-and-monitoring")
+
+
+def test_feedback_is_stored(client):
+    from rag.models import AnswerFeedback
+
+    ok = client.post(
+        "/api/rag/feedback",
+        {"question": "q", "answer": "a", "helpful": False, "comment": "too short"},
+        content_type="application/json",
+    )
+    assert ok.status_code == 201 and AnswerFeedback.objects.get().comment == "too short"
+    assert client.post("/api/rag/feedback", {"question": "q"}, content_type="application/json").status_code == 400
+    assert client.post("/api/rag/feedback", "{x", content_type="application/json").status_code == 400
+
+
+def test_answers_are_rate_limited_and_limits_can_be_turned_off(client, settings):
+    _index()
+
+    def ask():
+        return client.post(
+            "/api/rag/answers", {"question": "How do I ask a question?"}, content_type="application/json"
+        )
+
+    codes = [ask().status_code for _ in range(11)]
+    assert codes[:10] == [200] * 10 and codes[10] == 429
+    limited = ask()
+    assert "Too many questions" in limited.json()["detail"] and int(limited["Retry-After"]) >= 1
+    settings.RATE_LIMITS = False
+    assert ask().status_code == 200

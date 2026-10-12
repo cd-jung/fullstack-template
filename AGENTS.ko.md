@@ -99,6 +99,9 @@ scripts/                     check-consistency, new-project, build-site, dev, un
 - 로컬 스택은 `LLM_MODE=stub`(결정적)으로 돕니다. `llm_down` / `api_down` 컨텍스트는
   `page.route()` 가로채기를 씁니다(`tests/helpers.js`). 모바일 전용 테스트는 제목에 `@mobile`을 붙입니다.
 - sleep 대신 UI를 바꾸는 응답을 기다립니다(`page.waitForResponse`).
+- 실제 모델이 필요한 확인(다른 언어, 실제 검색)은 `@real` 태그를 붙입니다. 이 테스트는 `deployed` Playwright
+  프로젝트에서만 돌고, CD가 배포할 때마다 실제 사이트에 실행합니다. 모델 문장을 그대로 비교하지 말고
+  성질(링크 존재, 언어, 거절)을 확인합니다.
 
 ### 4.4 유닛 테스트
 
@@ -127,6 +130,11 @@ scripts/                     check-consistency, new-project, build-site, dev, un
 - D1: 트랜잭션 없음(`atomic`은 아무 일도 안 함), SQLite 문법, 아주 큰 `IN` 목록 피하기, 목록은 페이지 나누기.
 - 모델이 바뀌면 `npm run migrations`(Django 마이그레이션 + `d1_migrations/*.sql`). SQL을 직접 고치지 않습니다.
 - 클라이언트 오류는 `{"detail": "..."}`(LLM 오류는 `"code"` 추가). view는 얇게 유지합니다.
+- LLM을 부르는 모든 엔드포인트에는 `@rate_limited(n)`(`core/ratelimit.py`, 클라이언트별 분당 제한,
+  429 + Retry-After)을 붙입니다. 로컬 E2E는 `RATE_LIMITS=0`으로 돕니다.
+- D1 시드 데이터: `backend/scripts/export_seed_sql.py`(INSERT 출력)를 추가하고 `backend/scripts/seed_d1.sh`의
+  `SEED_TABLE`을 정합니다. CD는 그 테이블이 비어 있을 때만 한 번 넣습니다. 무료 플랜의 하루 쓰기 10만 행
+  (인덱스 항목도 포함)에 주의하세요.
 - `ruff format`으로 포맷, `ruff check`로 린트.
 
 ### 자연어 검색 (반드시 지킬 것)

@@ -98,6 +98,9 @@ Commit message: `feat(<feature>): ...`, `fix(<feature>): ...`, `refactor(<featur
 - The local stack runs with `LLM_MODE=stub` (deterministic). `llm_down` / `api_down` contexts use
   `page.route()` interception (`tests/helpers.js`). Mobile-only tests carry `@mobile` in the title.
 - Wait for the response that changes the UI (`page.waitForResponse`) instead of sleeping.
+- Checks that need the real model (another language, live retrieval) are tagged `@real`: they run only in
+  the `deployed` Playwright project, which CD runs against the live site after each deploy. Assert
+  properties (links exist, language, refusal) there, never exact model text.
 
 ### 4.4 Unit tests
 
@@ -126,6 +129,11 @@ Commit message: `feat(<feature>): ...`, `fix(<feature>): ...`, `refactor(<featur
 - D1: no transactions (`atomic` does nothing), SQLite dialect, avoid huge `IN` lists; paginate lists.
 - Models changed -> `npm run migrations` (Django migration + `d1_migrations/*.sql`). Never edit the SQL by hand.
 - Errors to the client as `{"detail": "..."}` (plus `"code"` for LLM errors). Views stay thin.
+- Every endpoint that calls the LLM gets `@rate_limited(n)` (`core/ratelimit.py`, per-client per minute,
+  429 + Retry-After). Local E2E runs with `RATE_LIMITS=0`.
+- Seed data for D1: add `backend/scripts/export_seed_sql.py` (prints INSERTs) and set `SEED_TABLE` in
+  `backend/scripts/seed_d1.sh`; CD loads it once, only while that table is empty. Mind the free plan's
+  100k rows written per day (index entries count).
 - Format with `ruff format`; lint with `ruff check`.
 
 ### Natural language search (non-negotiable)

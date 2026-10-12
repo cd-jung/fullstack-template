@@ -132,7 +132,7 @@ GitHub 저장소를 public으로 만들려면 `--public`을 붙입니다.
 | 단계 | 실행 내용 |
 |---|---|
 | verify (모든 push와 PR) | 린트 -> 커버리지 포함 유닛 테스트 -> 정합성 검사 `--strict` -> E2E (Playwright, LLM stub) -> 사이트 빌드 |
-| deploy (`main`만, verify 통과 후) | D1 마이그레이션 -> Worker 배포(`pywrangler deploy`) -> 유저 가이드 재인덱싱(바뀐 섹션만) -> 프론트엔드 배포(`wrangler deploy --config frontend/wrangler.jsonc`) -> 스모크 테스트 |
+| deploy (`main`만, verify 통과 후) | D1 마이그레이션 -> 비어 있으면 한 번 시드 -> Worker 배포(`pywrangler deploy`) -> 유저 가이드 재인덱싱(바뀐 섹션만) -> 프론트엔드 배포(`wrangler deploy --config frontend/wrangler.jsonc`) -> 스모크 테스트 -> 실제 사이트에 `@real` E2E |
 
 Cloudflare Git 연동 대신 Actions에서 배포합니다. 그래서 모든 검사를 통과해야만 배포됩니다.
 커버리지 페이지는 배포할 때마다 다시 만들어집니다.

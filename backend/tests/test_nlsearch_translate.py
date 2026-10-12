@@ -76,3 +76,11 @@ def test_unparseable_model_output_is_an_llm_error(text):
 
 def test_ansi_codes_are_stripped():
     assert parse_model_output('\x1b[32m{"a": 1}\x1b[0m') == {"a": 1}
+
+
+def test_stub_filter_returns_raw_model_output(monkeypatch):
+    monkeypatch.setattr(
+        LOG_CATALOG, "examples", [{"question": "raw", "stub_filter": {"field": "nope", "op": "eq", "value": 1}}]
+    )
+    with pytest.raises(UntranslatableError, match="not valid"):
+        translate(LOG_CATALOG, "raw")

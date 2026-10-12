@@ -75,6 +75,7 @@ test.describe('Help assistant (LLM stub)', () => {
     chat = await openHelp(page);
     await expect(chat.getByTestId('chat-question')).toHaveCount(1);
     await chat.getByRole('button', { name: 'New conversation' }).click();
+    await page.getByRole('dialog', { name: 'Start a new conversation?' }).getByRole('button', { name: 'Clear' }).click();
     await expect(chat.getByTestId('chat-question')).toHaveCount(0);
   });
 });
