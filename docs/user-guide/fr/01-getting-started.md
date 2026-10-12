@@ -11,6 +11,8 @@ Le menu de gauche comporte quatre sections :
 - **Journaux et surveillance** : journaux des requêtes et état du service.
 - **Couverture** : la part de l'application vérifiée par des tests automatiques, affichée dans l'application.
 
+Journaux et surveillance et Couverture se trouvent sur un **site d'administration** séparé. En les ouvrant depuis le menu, vous y êtes redirigé et vous vous connectez avec une adresse e-mail autorisée (un code à usage unique vous est envoyé).
+
 Sur un petit écran, ouvrez le menu avec le bouton de menu en haut à gauche.
 
 ## Choisir la langue

@@ -11,6 +11,8 @@ The left menu has four sections:
 - **Logs & Monitoring**: request logs and service health.
 - **Coverage**: how much of the app is covered by automated tests, shown inside the app.
 
+Logs & Monitoring and Coverage are on a separate **admin site** for administrators. Opening them from the menu takes you there, and you sign in with an approved email address (a one-time code is sent to it).
+
 On a small screen, open the menu with the menu button in the top-left corner.
 
 ## Choosing your language

@@ -1,6 +1,7 @@
 # 1. App Shell & Navigation
 
-Every page shares the header, the left menu and the floating Help button.
+Every page shares the header, the left menu and the floating Help button. The public site serves Home and the User Guide; Logs & Monitoring and
+Coverage are on the admin site, so on the public site those entries open the admin site.
 
 ```mermaid
 flowchart TD
@@ -11,6 +12,8 @@ flowchart TD
   shell --> menu["Menu: Home, User Guide,<br/>Logs & Monitoring, Coverage"]
   menu -->|"Home"| home["Main feature page"]
   menu -->|"User Guide"| guide[["User Guide<br/>(scenario 2)"]]
+  menu -->|"Logs & Monitoring / Coverage<br/>on the public site"| adminLink["Opens the admin site<br/>(sign-in with Cloudflare Access)"]
+  adminLink --> logs
   menu -->|"Logs & Monitoring"| logs[["Logs & Monitoring<br/>(scenario 4)"]]
   menu -->|"Coverage"| coverage["Coverage report inside the layout<br/>(build hint when not built yet)"]
   shell -->|"Help"| help[["Help assistant<br/>(scenario 3)"]]
@@ -19,7 +22,7 @@ flowchart TD
   classDef screen fill:#e8f0fe,stroke:#2f5d9e
   classDef hidden fill:#fdecea,stroke:#c62828,stroke-dasharray:4 3,color:#b71c1c
   classDef link fill:#e6f4ea,stroke:#2e7d32
-  class shell,permanent,drawer,menu,home,coverage screen
+  class shell,permanent,drawer,menu,home,coverage,adminLink screen
   class notFound hidden
   class guide,logs,help link
 

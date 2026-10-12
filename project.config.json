@@ -9,7 +9,8 @@
     "frontendWorker": "my-app",
     "d1Name": "my-app-db",
     "d1Id": "00000000-0000-0000-0000-000000000000",
-    "vectorizeIndex": "my-app-guide"
+    "vectorizeIndex": "my-app-guide",
+    "adminWorker": "my-app-admin"
   },
   "ai": {
     "embeddingModel": "@cf/baai/bge-m3",
@@ -17,5 +18,12 @@
     "llmModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
     "ragTopK": 5,
     "ragMinimumSimilarity": 0.5
+  },
+  "admin": {
+    "emails": [
+      "kookastudios@gmail.com"
+    ],
+    "accessTeamDomain": "jolly-smoke-0c81.cloudflareaccess.com",
+    "accessAud": ""
   }
 }

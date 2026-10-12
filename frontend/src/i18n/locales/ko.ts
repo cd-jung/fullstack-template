@@ -117,6 +117,43 @@ export const ko: Messages = {
       "tooltipErrors": "서버 오류 {{count}}건",
       "caption": "시간별 요청 수와 서버 오류 수",
       "hour": "시간"
+    },
+    "headroom": {
+      "title": "리소스 여유",
+      "legend": "한도 대비 사용 비율이에요. 초록: 60% 미만, 주황: 60~85%, 빨강: 85% 이상.",
+      "app": "앱 (최근 24시간)",
+      "cloudflare": "Cloudflare (CPU는 최근 24시간, 사용량은 이번 달)",
+      "notConfigured": "Cloudflare 지표를 보려면 읽기 전용 분석 토큰(CF_ANALYTICS_TOKEN)이 필요해요.",
+      "unavailable": "Cloudflare 지표를 가져오지 못했어요: {{reason}}",
+      "status": {
+        "ok": "정상",
+        "watch": "주의",
+        "critical": "위험"
+      },
+      "metric": {
+        "latencyP95": "응답 시간 p95",
+        "errorBudget": "오류 예산 (5xx)",
+        "aiBudget": "하루 AI 예산",
+        "rateLimited": "제한된 요청",
+        "vectorDims": "벡터 저장 공간",
+        "cpuP99": "CPU 시간 p99",
+        "requestsMonth": "이번 달 요청 수",
+        "d1Storage": "D1 저장 공간",
+        "d1RowsRead": "D1 읽은 행",
+        "d1RowsWritten": "D1 쓴 행"
+      },
+      "help": {
+        "latencyP95": "목표 1초 대비",
+        "errorBudget": "오류 예산 1% 대비",
+        "aiBudget": "오늘 실제 AI 호출 / AI_DAILY_LIMIT",
+        "rateLimited": "429로 응답한 요청 비율",
+        "vectorDims": "저장한 차원 수 / 포함량 1,000만",
+        "cpuP99": "요청당 한도 5,000ms 대비",
+        "requestsMonth": "월 포함량 1,000만 대비",
+        "d1Storage": "DB당 한도 10GB 대비",
+        "d1RowsRead": "월 포함량 250억 대비",
+        "d1RowsWritten": "월 포함량 5,000만 대비"
+      }
     }
   },
   "coverage": {
@@ -129,5 +166,9 @@ export const ko: Messages = {
   "home": {
     "title": "환영해요",
     "body": "여기에 주요 기능이 들어가요. 메뉴에서 사용자 가이드를 열거나 도움말 도우미에게 물어보세요."
+  },
+  "admin": {
+    "moved": "이 페이지는 관리자 사이트에 있어요:",
+    "signInRequired": "로그인이 필요해요. 로그와 모니터링은 로그인한 관리자만 볼 수 있어요."
   }
 };

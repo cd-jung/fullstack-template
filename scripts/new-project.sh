@@ -56,7 +56,8 @@ step "Writing project.config.json"
 jq --arg n "$NAME" --arg d "$DISPLAY" --arg id "$D1_ID" '
   .name = $n | .displayName = $d |
   .cloudflare.workerName = ($n + "-api") | .cloudflare.frontendWorker = $n |
-  .cloudflare.d1Name = ($n + "-db") | .cloudflare.d1Id = $id | .cloudflare.vectorizeIndex = ($n + "-guide")
+  .cloudflare.d1Name = ($n + "-db") | .cloudflare.d1Id = $id | .cloudflare.vectorizeIndex = ($n + "-guide") |
+  .cloudflare.adminWorker = ($n + "-admin") | .admin.accessAud = ""
 ' project.config.json > project.config.tmp && mv project.config.tmp project.config.json
 node scripts/apply-config.mjs
 

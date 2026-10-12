@@ -117,6 +117,43 @@ export const es: Messages = {
       "tooltipErrors": "{{count}} errores del servidor",
       "caption": "Solicitudes y errores del servidor por hora",
       "hour": "Hora"
+    },
+    "headroom": {
+      "title": "Margen de recursos",
+      "legend": "Parte de cada límite en uso. Verde: menos del 60 %, ámbar: 60–85 %, rojo: 85 % o más.",
+      "app": "Aplicación (últimas 24 horas)",
+      "cloudflare": "Cloudflare (CPU últimas 24 horas, uso de este mes)",
+      "notConfigured": "Las métricas de Cloudflare necesitan un token de análisis de solo lectura (CF_ANALYTICS_TOKEN).",
+      "unavailable": "Las métricas de Cloudflare no están disponibles: {{reason}}",
+      "status": {
+        "ok": "Bien",
+        "watch": "Vigilar",
+        "critical": "Crítico"
+      },
+      "metric": {
+        "latencyP95": "Tiempo de respuesta p95",
+        "errorBudget": "Presupuesto de errores (5xx)",
+        "aiBudget": "Presupuesto diario de IA",
+        "rateLimited": "Solicitudes limitadas",
+        "vectorDims": "Almacenamiento vectorial",
+        "cpuP99": "Tiempo de CPU p99",
+        "requestsMonth": "Solicitudes este mes",
+        "d1Storage": "Almacenamiento D1",
+        "d1RowsRead": "Filas leídas en D1",
+        "d1RowsWritten": "Filas escritas en D1"
+      },
+      "help": {
+        "latencyP95": "Comparado con un objetivo de 1 s",
+        "errorBudget": "Comparado con un presupuesto de errores del 1 %",
+        "aiBudget": "Llamadas reales de IA hoy frente a AI_DAILY_LIMIT",
+        "rateLimited": "Parte de solicitudes respondidas con 429",
+        "vectorDims": "Dimensiones almacenadas frente a los 10M incluidos",
+        "cpuP99": "frente al límite de 5000 ms por solicitud",
+        "requestsMonth": "frente a 10M incluidas al mes",
+        "d1Storage": "frente al límite de 10 GB por base de datos",
+        "d1RowsRead": "frente a 25 000M incluidas al mes",
+        "d1RowsWritten": "frente a 50M incluidas al mes"
+      }
     }
   },
   "coverage": {
@@ -129,5 +166,9 @@ export const es: Messages = {
   "home": {
     "title": "Bienvenido",
     "body": "Aquí va la función principal. Abre la Guía del usuario desde el menú o pregunta al asistente de Ayuda."
+  },
+  "admin": {
+    "moved": "Esta página está en el sitio de administración:",
+    "signInRequired": "Debes iniciar sesión: los registros y la monitorización solo están disponibles para administradores."
   }
 };

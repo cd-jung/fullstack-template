@@ -27,8 +27,13 @@ secret from the macOS Keychain, and pushes. The push runs CI/CD, which tests and
 |---|---|
 | App | `https://my-app.kookastudios.workers.dev` |
 | API | `https://my-app-api.kookastudios.workers.dev/api/health` |
-| Coverage | `https://my-app.kookastudios.workers.dev/coverage` |
-| UX flows | `https://my-app.kookastudios.workers.dev/ux-flows/` |
+| Admin (logs, coverage, UX flows) | `https://my-app-admin.kookastudios.workers.dev` |
+
+**Admin site sign-in (2 minutes, once per project):** Cloudflare dashboard → Workers & Pages → `my-app-admin` →
+**Access** tab → **Protect this Worker behind Access** → Scope **All traffic** → policy **Allow Kooka Owner**
+(only `kookastudios@gmail.com`; never *Email domain*, which would admit every Gmail user) → **Apply Access**.
+Copy the **AUD tag** into `project.config.json` `admin.accessAud`, run `node scripts/apply-config.mjs` and push.
+Until then the admin API answers 403.
 
 Then open the new folder in Claude Code and build features with `/feature <description>`.
 Add `--public` to make the GitHub repo public.
@@ -125,6 +130,23 @@ error 1102, so this template now assumes **Workers Paid**. To run on Free, move 
 - Edge Rate Limiting bindings (120 API / 10 AI requests per minute per IP) before any D1 work, daily AI budget
   (`AI_DAILY_LIMIT`), `limits.cpu_ms`, 64 KB bodies, 14-day log retention, CSP and security headers,
   `DJANGO_SECRET_KEY` ensured by CD. Set a Cloudflare **Usage Based Billing** alert in the dashboard.
+
+### Admin site (logs, monitoring, coverage)
+
+- The public site (`<project>`) serves Book Search and the User Guide. **Logs & Monitoring**, **Coverage** and
+  the UX flows are on a separate admin Worker (`<project>-admin`, `frontend/admin-worker.js`), built into
+  `frontend/dist-admin` by `scripts/build-site.sh`. On the public site those menu entries link to the admin site.
+- **Cloudflare Access** (Zero Trust Free, team `jolly-smoke-0c81`) protects the whole admin Worker: policy
+  *Include → Emails* = `project.config.json` `admin.emails` (now `kookastudios@gmail.com`), One-time PIN login.
+- Defence in depth: the admin Worker also verifies the Access JWT (`Cf-Access-Jwt-Assertion`, RS256, `aud`,
+  `iss`, expiry, email allow-list) and forwards `/api/*` over a service binding with `X-Admin-Proxy`.
+  The API answers `/api/logs*` only with that shared secret (`ADMIN_PROXY_SECRET`, set by CD on both Workers);
+  without it, it fails closed with 403. Until `admin.accessAud` is filled in, the admin API also answers 403.
+- **Resource headroom**: the dashboard shows each limit as % used with green (<60%), amber (60–85%) and red
+  (≥85%) plus an icon and label. App metrics come from D1 (p95 vs 1 s, 5xx budget 1%, daily AI budget,
+  429 share, vector storage). Cloudflare metrics come from the GraphQL Analytics API with a read-only
+  `CF_ANALYTICS_TOKEN` Worker secret (CPU p99 vs `limits.cpu_ms`, requests, D1 storage and rows this month),
+  cached for 5 minutes. Cloudflare's own dashboard shows these numbers too, but as raw values, not % of limits.
 
 ### UI
 

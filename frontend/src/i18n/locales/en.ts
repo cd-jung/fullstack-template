@@ -116,6 +116,43 @@ export const en = {
       "tooltipErrors": "{{count}} server errors",
       "caption": "Requests and server errors per hour",
       "hour": "Hour"
+    },
+    "headroom": {
+      "title": "Resource headroom",
+      "legend": "Share of each limit in use. Green: under 60 %, amber: 60–85 %, red: 85 % or more.",
+      "app": "App (last 24 hours)",
+      "cloudflare": "Cloudflare (CPU last 24 hours, usage this month)",
+      "notConfigured": "Cloudflare metrics need a read-only analytics token (CF_ANALYTICS_TOKEN).",
+      "unavailable": "Cloudflare metrics are unavailable: {{reason}}",
+      "status": {
+        "ok": "OK",
+        "watch": "Watch",
+        "critical": "Critical"
+      },
+      "metric": {
+        "latencyP95": "Response time p95",
+        "errorBudget": "Error budget (5xx)",
+        "aiBudget": "Daily AI budget",
+        "rateLimited": "Rate-limited requests",
+        "vectorDims": "Vector storage",
+        "cpuP99": "CPU time p99",
+        "requestsMonth": "Requests this month",
+        "d1Storage": "D1 storage",
+        "d1RowsRead": "D1 rows read",
+        "d1RowsWritten": "D1 rows written"
+      },
+      "help": {
+        "latencyP95": "Compared with a 1 s target",
+        "errorBudget": "Compared with a 1 % error budget",
+        "aiBudget": "Real AI calls today vs AI_DAILY_LIMIT",
+        "rateLimited": "Share of requests answered with 429",
+        "vectorDims": "Stored dimensions vs the 10M included",
+        "cpuP99": "vs the 5,000 ms per-request limit",
+        "requestsMonth": "vs 10M included per month",
+        "d1Storage": "vs the 10 GB database limit",
+        "d1RowsRead": "vs 25B included per month",
+        "d1RowsWritten": "vs 50M included per month"
+      }
     }
   },
   "coverage": {
@@ -128,6 +165,10 @@ export const en = {
   "home": {
     "title": "Welcome",
     "body": "The main feature goes here. Open the User Guide from the menu, or ask the Help assistant."
+  },
+  "admin": {
+    "moved": "This page is on the admin site:",
+    "signInRequired": "Sign-in required: logs and monitoring are only available to signed-in administrators."
   }
 };
 

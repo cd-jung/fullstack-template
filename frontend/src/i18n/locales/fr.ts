@@ -117,6 +117,43 @@ export const fr: Messages = {
       "tooltipErrors": "{{count}} erreurs serveur",
       "caption": "Requêtes et erreurs serveur par heure",
       "hour": "Heure"
+    },
+    "headroom": {
+      "title": "Marge des ressources",
+      "legend": "Part de chaque limite utilisée. Vert : moins de 60 %, orange : 60–85 %, rouge : 85 % ou plus.",
+      "app": "Application (dernières 24 heures)",
+      "cloudflare": "Cloudflare (CPU des dernières 24 heures, usage du mois)",
+      "notConfigured": "Les métriques Cloudflare nécessitent un jeton d'analyse en lecture seule (CF_ANALYTICS_TOKEN).",
+      "unavailable": "Les métriques Cloudflare sont indisponibles : {{reason}}",
+      "status": {
+        "ok": "OK",
+        "watch": "À surveiller",
+        "critical": "Critique"
+      },
+      "metric": {
+        "latencyP95": "Temps de réponse p95",
+        "errorBudget": "Budget d'erreurs (5xx)",
+        "aiBudget": "Budget IA quotidien",
+        "rateLimited": "Requêtes limitées",
+        "vectorDims": "Stockage vectoriel",
+        "cpuP99": "Temps CPU p99",
+        "requestsMonth": "Requêtes ce mois-ci",
+        "d1Storage": "Stockage D1",
+        "d1RowsRead": "Lignes D1 lues",
+        "d1RowsWritten": "Lignes D1 écrites"
+      },
+      "help": {
+        "latencyP95": "Par rapport à un objectif de 1 s",
+        "errorBudget": "Par rapport à un budget d'erreurs de 1 %",
+        "aiBudget": "Appels IA réels aujourd'hui par rapport à AI_DAILY_LIMIT",
+        "rateLimited": "Part des requêtes refusées avec 429",
+        "vectorDims": "Dimensions stockées par rapport aux 10M inclus",
+        "cpuP99": "par rapport à la limite de 5 000 ms par requête",
+        "requestsMonth": "par rapport aux 10M inclus par mois",
+        "d1Storage": "par rapport à la limite de 10 Go par base",
+        "d1RowsRead": "par rapport aux 25 milliards inclus par mois",
+        "d1RowsWritten": "par rapport aux 50M inclus par mois"
+      }
     }
   },
   "coverage": {
@@ -129,5 +166,9 @@ export const fr: Messages = {
   "home": {
     "title": "Bienvenue",
     "body": "La fonctionnalité principale se trouve ici. Ouvrez le Guide de l'utilisateur depuis le menu ou interrogez l'assistant d'Aide."
+  },
+  "admin": {
+    "moved": "Cette page se trouve sur le site d'administration :",
+    "signInRequired": "Connexion requise : les journaux et la surveillance sont réservés aux administrateurs connectés."
   }
 };

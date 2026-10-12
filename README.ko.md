@@ -29,8 +29,13 @@ Vectorize 인덱스를 만들고, `project.config.json`을 채우고, macOS 키�
 |---|---|
 | 앱 | `https://my-app.kookastudios.workers.dev` |
 | API | `https://my-app-api.kookastudios.workers.dev/api/health` |
-| 커버리지 | `https://my-app.kookastudios.workers.dev/coverage` |
-| UX flow | `https://my-app.kookastudios.workers.dev/ux-flows/` |
+| 관리자 (로그, 커버리지, UX flow) | `https://my-app-admin.kookastudios.workers.dev` |
+
+**관리자 사이트 로그인 설정 (프로젝트마다 한 번, 2분):** Cloudflare 대시보드 → Workers & Pages → `my-app-admin` →
+**Access** 탭 → **Protect this Worker behind Access** → Scope **All traffic** → 정책 **Allow Kooka Owner**
+(`kookastudios@gmail.com`만 허용, *Email domain*은 Gmail 사용자 전부를 허용하므로 절대 선택 금지) → **Apply Access**.
+**AUD tag**를 `project.config.json`의 `admin.accessAud`에 넣고 `node scripts/apply-config.mjs` 실행 후 push하세요.
+그 전까지 관리자 API는 403을 돌려줍니다.
 
 그다음 새 폴더를 Claude Code로 열고 `/feature <설명>`으로 기능을 만듭니다.
 GitHub 저장소를 public으로 만들려면 `--public`을 붙입니다.
@@ -125,6 +130,22 @@ GitHub 저장소를 public으로 만들려면 `--public`을 붙입니다.
 
 - D1 작업 전에 엣지 Rate Limiting 바인딩(IP별 분당 API 120회, AI 10회), 하루 AI 예산(`AI_DAILY_LIMIT`), `limits.cpu_ms`,
   요청 본문 64KB, 로그 14일 보관, CSP와 보안 헤더, CD가 `DJANGO_SECRET_KEY`를 보장. 대시보드에서 Cloudflare **Usage Based Billing** 알림을 설정하세요.
+
+### 관리자 사이트 (로그, 모니터링, 커버리지)
+
+- 공개 사이트(`<project>`)는 도서 검색과 사용자 가이드만 제공해요. **로그 및 모니터링**, **커버리지**, UX 흐름은
+  별도 관리자 Worker(`<project>-admin`, `frontend/admin-worker.js`)에 있고, `scripts/build-site.sh`가
+  `frontend/dist-admin`으로 빌드해요. 공개 사이트의 해당 메뉴는 관리자 사이트로 연결돼요.
+- **Cloudflare Access**(Zero Trust Free, 팀 `jolly-smoke-0c81`)가 관리자 Worker 전체를 보호해요. 정책은
+  *Include → Emails* = `project.config.json`의 `admin.emails`(현재 `kookastudios@gmail.com`), 로그인은 One-time PIN.
+- 다중 방어: 관리자 Worker도 Access JWT(`Cf-Access-Jwt-Assertion`, RS256, `aud`, `iss`, 만료, 이메일 허용 목록)를
+  검증하고, `/api/*`를 서비스 바인딩으로 `X-Admin-Proxy` 헤더와 함께 전달해요. API는 그 공유 시크릿
+  (`ADMIN_PROXY_SECRET`, CD가 두 Worker에 설정)이 있을 때만 `/api/logs*`에 응답하고, 없으면 403으로 닫혀요.
+  `admin.accessAud`를 채우기 전까지는 관리자 API도 403을 돌려줘요.
+- **리소스 여유**: 대시보드는 각 한도의 사용률을 %와 초록(<60%), 노랑(60–85%), 빨강(≥85%), 아이콘과 라벨로
+  보여 줘요. 앱 지표는 D1에서(1초 대비 p95, 5xx 예산 1%, 일일 AI 예산, 429 비율, 벡터 저장 공간), Cloudflare 지표는
+  읽기 전용 `CF_ANALYTICS_TOKEN` Worker 시크릿으로 GraphQL Analytics API에서 가져오고(`limits.cpu_ms` 대비 CPU p99,
+  이번 달 요청 수, D1 저장 공간과 행 수) 5분간 캐시해요. Cloudflare 대시보드에도 이 수치가 있지만 한도 대비 %가 아닌 원래 값으로만 보여요.
 
 ### UI
 
