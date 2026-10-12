@@ -6,7 +6,7 @@
     "accountId": "7d13fa412be4360e16b68ba93dbec736",
     "workersSubdomain": "kookastudios",
     "workerName": "my-app-api",
-    "pagesProject": "my-app",
+    "frontendWorker": "my-app",
     "d1Name": "my-app-db",
     "d1Id": "00000000-0000-0000-0000-000000000000",
     "vectorizeIndex": "my-app-guide"

@@ -20,7 +20,7 @@
 		"DJANGO_ENV": "workers",
 		"LLM_MODE": "real",
 		"APP_NAME": "My App", // from project.config.json
-		"ALLOWED_ORIGINS": "https://my-app.pages.dev", // from project.config.json
+		"ALLOWED_ORIGINS": "https://my-app.kookastudios.workers.dev", // from project.config.json
 		"EMBEDDING_MODEL": "@cf/baai/bge-m3", // from project.config.json
 		"LLM_MODEL": "@cf/meta/llama-3.3-70b-instruct-fp8-fast", // from project.config.json
 		"RAG_TOP_K": "5", // from project.config.json
